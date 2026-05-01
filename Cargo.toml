@@ -1,6 +1,6 @@
 [package]
 name = "md2bb"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "CLI Tool to convert markdown to old school bbcode"
 repository = "github.com/nilsmartel/md2bb"
