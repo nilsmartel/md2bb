@@ -20,6 +20,8 @@ fn md_to_bbcode(input: &str) -> String {
     options.insert(Options::ENABLE_TABLES);
 
     let parser = Parser::new_ext(input, options);
+
+    // Buffer to accumulate the BBCode output as we process events
     let mut output = String::new();
 
     // Stack to track open tags that need closing
