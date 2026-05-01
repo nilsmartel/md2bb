@@ -1,4 +1,4 @@
-use pulldown_cmark::{Event, Options, Parser, Tag, TagEnd, HeadingLevel, CodeBlockKind};
+use pulldown_cmark::{CodeBlockKind, Event, HeadingLevel, Options, Parser, Tag, TagEnd};
 use std::env;
 use std::fs;
 use std::io::{self, Read};
@@ -49,7 +49,9 @@ fn md_to_bbcode(input: &str) -> String {
                     output.push_str("[s]");
                     tag_stack.push("[/s]".to_string());
                 }
-                Tag::Link { dest_url, title, .. } => {
+                Tag::Link {
+                    dest_url, title, ..
+                } => {
                     let open = if title.is_empty() {
                         format!("[url={}]", dest_url)
                     } else {
@@ -63,18 +65,16 @@ fn md_to_bbcode(input: &str) -> String {
                     // Image alt text events will be swallowed; push empty close
                     tag_stack.push("__img__".to_string());
                 }
-                Tag::CodeBlock(kind) => {
-                    match kind {
-                        CodeBlockKind::Fenced(lang) if !lang.is_empty() => {
-                            output.push_str(&format!("[code={}]", lang));
-                            tag_stack.push("[/code]".to_string());
-                        }
-                        _ => {
-                            output.push_str("[code]");
-                            tag_stack.push("[/code]".to_string());
-                        }
+                Tag::CodeBlock(kind) => match kind {
+                    CodeBlockKind::Fenced(lang) if !lang.is_empty() => {
+                        output.push_str(&format!("[code={}]", lang));
+                        tag_stack.push("[/code]".to_string());
                     }
-                }
+                    _ => {
+                        output.push_str("[code]");
+                        tag_stack.push("[/code]".to_string());
+                    }
+                },
                 Tag::BlockQuote(_) => {
                     output.push_str("[quote]");
                     tag_stack.push("[/quote]".to_string());
@@ -83,7 +83,7 @@ fn md_to_bbcode(input: &str) -> String {
                     list_stack.push(start);
                     match start {
                         Some(_) => output.push_str("[list=1]\n"),
-                        None    => output.push_str("[list]\n"),
+                        None => output.push_str("[list]\n"),
                     }
                 }
                 Tag::Item => {
