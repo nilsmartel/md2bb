@@ -186,6 +186,22 @@ fn md_to_bbcode(input: &str) -> String {
 fn main() {
     let args: Vec<String> = env::args().collect();
 
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        println!("Usage: md2bb [FILE]");
+        println!("       cat [FILE] | md2bb ");
+        println!();
+        println!("Convert Markdown to BBCode.");
+        println!();
+        println!("Arguments:");
+        println!("  FILE       Path to a Markdown file to convert.");
+        println!("             If omitted, input is read from stdin.");
+        println!();
+        println!("Options:");
+        println!("  -h, --help  Print this help message and exit.");
+        std::process::exit(0);
+    }
+
+
     let input = if args.len() >= 2 {
         // Read from file path given as first argument
         match fs::read_to_string(&args[1]) {
@@ -204,6 +220,7 @@ fn main() {
         }
         buf
     };
+
 
     print!("{}", md_to_bbcode(&input));
 }
