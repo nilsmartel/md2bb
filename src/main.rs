@@ -184,6 +184,13 @@ fn md_to_bbcode(input: &str) -> String {
 }
 
 fn main() {
+    let input = read_input();
+
+
+    print!("{}", md_to_bbcode(&input));
+}
+
+fn read_input() -> String {
     let args: Vec<String> = env::args().collect();
 
     if args.iter().any(|a| a == "--help" || a == "-h") {
@@ -213,14 +220,12 @@ fn main() {
         }
     } else {
         // Read from stdin
-        let mut buf = String::new();
+        let mut buf = String::with_capacity(128);
         if let Err(e) = io::stdin().read_to_string(&mut buf) {
             eprintln!("Error reading stdin: {}", e);
             std::process::exit(1);
         }
         buf
     };
-
-
-    print!("{}", md_to_bbcode(&input));
+    input
 }
