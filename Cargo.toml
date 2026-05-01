@@ -3,6 +3,7 @@ name = "md2bb"
 version = "0.1.0"
 edition = "2021"
 description = "CLI Tool to convert markdown to old school bbcode"
+repository = "github.com/nilsmartel/md2bb"
 license = "MIT"
 
 [dependencies]
