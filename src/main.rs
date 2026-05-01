@@ -22,11 +22,13 @@ fn md_to_bbcode(input: &str) -> String {
     let parser = Parser::new_ext(input, options);
 
     // Buffer to accumulate the BBCode output as we process events
-    let mut output = String::new();
+    // I expect bbcode size to be less than 1.5 times the size of the input.
+    // This optimization will never be meaningful, yet it's satifying to me.
+    let mut output = String::with_capacity(input.len() + input.len()/2);
 
     // Stack to track open tags that need closing
     let mut tag_stack: Vec<String> = Vec::new();
-    // For list tracking: true = ordered, false = unordered
+    // For list tracking
     let mut list_stack: Vec<Option<u64>> = Vec::new();
 
     for event in parser {
