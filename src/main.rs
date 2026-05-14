@@ -187,9 +187,8 @@ fn md_to_bbcode(input: &str) -> String {
 
 fn main() {
     let input = read_input();
-
-
-    print!("{}", md_to_bbcode(&input));
+    let bbcode = md_to_bbcode(&input);
+    print!("{}", bbcode);
 }
 
 fn read_input() -> String {
